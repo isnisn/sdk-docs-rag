@@ -4,10 +4,9 @@ Local CPU-only Claude Code plugin that gives the LLM a semantic-search tool
 over any vendor SDK documentation tree. Works with doxygen HTML, Sphinx
 HTML/RST, markdown, plain text, and PDF. No API keys, no network, no cloud.
 
-Built from the same pattern used for the Renesas DA16200 docs MCP server,
-generalised so you can drop it into any project with a vendor SDK and get a
-per-project search tool whose name you control (e.g. `search_nordic_docs`,
-`search_stm32_docs`).
+Drop it into any project with a vendor SDK and get a per-project search
+tool whose name you control (e.g. `search_nordic_docs`,
+`search_stm32_docs`, `search_esp_idf_docs`).
 
 ## Architecture
 
@@ -121,7 +120,7 @@ active in multiple projects.
 | `server/ingest.py` | Generic doc walker + chunker + embedder |
 | `server/pyproject.toml` | Dependencies (all MIT-licensed) |
 | `skills/ingest-docs/SKILL.md` | `/sdk-docs-rag:ingest` command |
-| `example-sdk-docs.json` | Template with Nordic, Renesas, STM32 examples |
+| `example-sdk-docs.json` | Template with Nordic, Renesas, Espressif, STM32 examples |
 
 ## Why MiniLM and not a Claude model?
 

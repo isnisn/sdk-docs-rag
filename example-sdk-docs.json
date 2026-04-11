@@ -7,9 +7,9 @@
   "index_path": ".sdk-docs-index.db",
 
   "doc_sources": [
-    { "path": "ncs/v2.6.0/nrf/doc/nrf/_build/html",    "type": "html" },
-    { "path": "ncs/v2.6.0/zephyr/doc/_build/html",     "type": "html" },
-    { "path": "datasheets/nRF54L15_PS_v1.0.pdf",       "type": "pdf"  }
+    { "path": "ncs/nrf/doc/nrf/_build/html",    "type": "html" },
+    { "path": "ncs/zephyr/doc/_build/html",     "type": "html" },
+    { "path": "datasheets/device_spec.pdf",     "type": "pdf"  }
   ],
 
   "chunk_include_patterns": ["*.html", "*.md", "*.rst"],
@@ -24,14 +24,16 @@
   ],
 
   "_examples": {
+    "_comment": "Alternative configurations for other vendors. Not used at runtime — copy the top-level keys above to match your SDK.",
+
     "renesas_da16200": {
       "vendor": "renesas",
       "display_name": "Renesas DA16200 FreeRTOS SDK",
       "tool_name": "search_renesas_docs",
       "doc_sources": [
-        { "path": "sdk/docs/doxygen/md_files",   "type": "html" },
-        { "path": "sdk/docs/doxygen/html",       "type": "html" },
-        { "path": "DA16200_Programmer_Guide.pdf","type": "pdf"  }
+        { "path": "sdk/docs/doxygen/md_files",    "type": "html" },
+        { "path": "sdk/docs/doxygen/html",        "type": "html" },
+        { "path": "DA16200_Programmer_Guide.pdf", "type": "pdf"  }
       ],
       "chunk_exclude_patterns": [
         "*_source.html",
@@ -48,12 +50,48 @@
         "pages.html"
       ]
     },
-    "stm32": {
+
+    "espressif_esp_idf": {
+      "vendor": "espressif",
+      "display_name": "Espressif ESP-IDF",
+      "tool_name": "search_esp_idf_docs",
+      "doc_sources": [
+        { "path": "esp-idf/docs/_build/html", "type": "html" }
+      ],
+      "chunk_include_patterns": ["*.html", "*.rst"],
+      "chunk_exclude_patterns": ["*_source.html", "_sources/*", "_static/*", "*searchindex.js"]
+    },
+
+    "stm32_cube_hal": {
       "vendor": "st",
       "display_name": "STM32Cube HAL",
       "tool_name": "search_stm32_docs",
       "doc_sources": [
-        { "path": "STM32CubeL4/Documentation/stm32l4xx_hal_api.chm" }
+        { "path": "STM32Cube/Documentation/html", "type": "html" },
+        { "path": "datasheets/mcu_reference_manual.pdf", "type": "pdf" }
+      ]
+    },
+
+    "doxygen_project": {
+      "vendor": "myproj",
+      "display_name": "My Project Doxygen Docs",
+      "tool_name": "search_myproj_docs",
+      "doc_sources": [
+        { "path": "build/doxygen/html", "type": "html" }
+      ],
+      "chunk_exclude_patterns": [
+        "*_source.html",
+        "nav*",
+        "dir_*",
+        "files.html",
+        "annotated.html",
+        "classes*",
+        "functions*",
+        "globals*",
+        "hierarchy*",
+        "modules*",
+        "namespace*",
+        "pages.html"
       ]
     }
   }
