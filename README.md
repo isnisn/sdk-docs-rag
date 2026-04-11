@@ -8,6 +8,63 @@ Drop it into any project with a vendor SDK and get a per-project search
 tool whose name you control (e.g. `search_nordic_docs`,
 `search_stm32_docs`, `search_esp_idf_docs`).
 
+## Why this exists
+
+Working on embedded firmware with a large vendor SDK is painful with
+Claude Code out of the box. Vendor SDKs are typically 1–10 GB of source,
+headers, doxygen HTML, and programmer-guide PDFs. Every time the LLM
+needs to confirm a function signature, a config flag, an NVRAM key, or
+a platform gotcha, the default answer is to `Read` the source file —
+which drops thousands of tokens of vendor code straight into the context
+window.
+
+At current API pricing that adds up fast:
+
+- A single `Read` of a 600-line doxygen HTML file burns **~8,000 input
+  tokens**. The LLM needs 5–10 such lookups in a typical debugging
+  session. That is easily **50,000–100,000 input tokens per session**
+  spent on material that has almost no relation to the code you are
+  actually writing.
+- A full programmer guide PDF is 300+ pages. At ~800 tokens per page
+  that is **~240,000 tokens** for one document. Reading it is simply
+  not an option — the model hits the context ceiling first.
+- Grepping is worse: `grep -n` over a doxygen tree emits hundreds of
+  irrelevant matches and still does not answer semantic questions like
+  *"how does the connect callback interact with DHCP timing?"*.
+
+This plugin fixes all three problems at once:
+
+1. **Semantic search instead of keyword grep.** A query like
+   *"MQTT client start function parameters"* returns the 5 most
+   relevant paragraphs across the entire SDK, ranked by cosine
+   similarity. The LLM gets ~2,000 tokens of targeted context instead
+   of 80,000 tokens of raw HTML.
+2. **Cheap, local embeddings.** `sentence-transformers/all-MiniLM-L6-v2`
+   runs on CPU in milliseconds. No OpenAI embedding API, no Anthropic
+   embedding API (Anthropic does not expose one), no recurring cost.
+   You pay once in electricity to build the index and query it forever.
+3. **Offline and private.** The docs never leave your laptop. Important
+   for NDA-protected vendor SDKs, classified projects, or just for
+   working on a plane. The only external resource is the one-time
+   MiniLM model download on first run.
+
+### Rough savings estimate
+
+For a firmware project where the LLM makes ~20 SDK lookups per hour:
+
+| Approach | Tokens per lookup | Cost per hour (at $3/1M input tokens) |
+|---|---|---|
+| Direct `Read` on SDK files | ~8,000 | **~$0.48/hour** |
+| `grep` + follow-up `Read` | ~15,000 | **~$0.90/hour** |
+| sdk-docs-rag semantic search | ~2,000 | **~$0.12/hour** |
+
+Across a 40-hour development week that is roughly **$15–30 saved per
+developer per week** on context tokens alone — and the savings scale
+linearly with how much the LLM reads the SDK. More importantly, the
+model is *less distracted*: it sees a focused set of relevant snippets
+instead of drowning in boilerplate header files, which measurably
+improves the quality of its suggestions.
+
 ## Architecture
 
 1. **`ingest.py`** walks the directories and files listed in your
