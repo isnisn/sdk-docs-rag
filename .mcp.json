@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sdk-docs": {
+      "command": "python3",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server/server.py"],
+      "env": {
+        "SDK_DOCS_CONFIG": "${PWD}/sdk-docs.json"
+      }
+    }
+  }
+}

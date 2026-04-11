@@ -1,0 +1,17 @@
+# Virtualenv for the MCP server dependencies
+server/.venv/
+
+# Python build / packaging artifacts
+server/*.egg-info/
+server/__pycache__/
+**/__pycache__/
+*.pyc
+
+# Generated SQLite index (per-project, machine-local)
+.sdk-docs-index.db
+*.sdk-docs-index.db
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/

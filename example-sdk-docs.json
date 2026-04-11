@@ -1,0 +1,60 @@
+{
+  "_comment": "Copy this to <your-project>/sdk-docs.json and edit the fields. Then run /sdk-docs-rag:ingest inside Claude Code, or python3 $CLAUDE_PLUGIN_ROOT/server/ingest.py --config sdk-docs.json from the shell.",
+
+  "vendor": "nordic",
+  "display_name": "Nordic nRF Connect SDK",
+  "tool_name": "search_nordic_docs",
+  "index_path": ".sdk-docs-index.db",
+
+  "doc_sources": [
+    { "path": "ncs/v2.6.0/nrf/doc/nrf/_build/html",    "type": "html" },
+    { "path": "ncs/v2.6.0/zephyr/doc/_build/html",     "type": "html" },
+    { "path": "datasheets/nRF54L15_PS_v1.0.pdf",       "type": "pdf"  }
+  ],
+
+  "chunk_include_patterns": ["*.html", "*.md", "*.rst"],
+  "chunk_exclude_patterns": [
+    "*_source.html",
+    "*genindex*",
+    "*search.html",
+    "*searchindex.js",
+    "*objects.inv",
+    "_sources/*",
+    "_static/*"
+  ],
+
+  "_examples": {
+    "renesas_da16200": {
+      "vendor": "renesas",
+      "display_name": "Renesas DA16200 FreeRTOS SDK",
+      "tool_name": "search_renesas_docs",
+      "doc_sources": [
+        { "path": "sdk/docs/doxygen/md_files",   "type": "html" },
+        { "path": "sdk/docs/doxygen/html",       "type": "html" },
+        { "path": "DA16200_Programmer_Guide.pdf","type": "pdf"  }
+      ],
+      "chunk_exclude_patterns": [
+        "*_source.html",
+        "nav*",
+        "dir_*",
+        "files.html",
+        "annotated.html",
+        "classes*",
+        "functions*",
+        "globals*",
+        "hierarchy*",
+        "modules*",
+        "namespace*",
+        "pages.html"
+      ]
+    },
+    "stm32": {
+      "vendor": "st",
+      "display_name": "STM32Cube HAL",
+      "tool_name": "search_stm32_docs",
+      "doc_sources": [
+        { "path": "STM32CubeL4/Documentation/stm32l4xx_hal_api.chm" }
+      ]
+    }
+  }
+}
