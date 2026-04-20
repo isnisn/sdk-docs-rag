@@ -6,7 +6,9 @@
   "plugins": [
     {
       "name": "sdk-docs-rag",
-      "source": "./"
+      "source": "./",
+      "version": "1.0.0",
+      "description": "Local CPU-only semantic search over vendor SDK documentation."
     }
   ]
 }
